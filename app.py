@@ -12,7 +12,7 @@ INFO_MODEL = os.path.join(MODEL_DIR, "model_info.pkl")
 st.set_page_config(page_title="Zomato Delivery AI", page_icon="🍔", layout="centered")
 
 
-# Load pipelines that already contain preprocessing + model.
+# Load trained models and metadata
 @st.cache_resource
 def load_models():
     with open(ETA_MODEL, "rb") as f:

@@ -1,70 +1,89 @@
-# 🍔 Zomato Delivery AI
+# 🍔 Zomato Delivery AI — Classroom Project
 
-A simple 2–3 hour classroom project demonstrating **Linear Regression + Logistic Regression** on the same food-delivery business problem.
+A beginner-friendly 2–3 hour machine learning project for 1st year B.Tech students demonstrating **Linear Regression** (Regression) and **Logistic Regression** (Classification) on the same food-delivery business problem.
 
-## Business story
+---
 
-> **Can AI tell us both how long an order will take and whether it is likely to be late?**
+## 🎯 Business Story
 
-### Model 1 — ETA AI
-**Linear Regression** predicts delivery time in minutes.
+> **"When a customer places an order on Zomato, can AI tell us both how long it will take and whether it is likely to be delayed?"**
 
-Target:
-`Time_taken (min)`
+### 1. Model 1 — ETA AI (Linear Regression)
+* **Goal:** Predict estimated delivery time in minutes.
+* **Target:** `Time_taken_min` (Continuous number, e.g., 24.5 min).
 
-### Model 2 — Late Delivery AI
-**Logistic Regression** predicts whether delivery is likely to be late.
+### 2. Model 2 — Late Delivery AI (Logistic Regression)
+* **Goal:** Predict whether the delivery is likely to exceed the 30-minute threshold.
+* **Target:** `late` (Binary: `1` if `Time_taken_min > 30`, else `0`).
 
-Teaching rule:
-`late = Time_taken (min) > 30`
+---
 
-## Shared inputs
+## 📋 The 10 Clean Columns in `zomato_cleaned.csv`
 
-- Distance (km)
-- Delivery person age
-- Delivery person rating
-- Vehicle condition
-- Additional deliveries
-- Traffic density
-- Weather
-- Festival
+1. `distance_km` — Distance between restaurant and customer (km)
+2. `Delivery_person_Age` — Age of the delivery partner
+3. `Delivery_person_Ratings` — Average rating of the rider (1.0 to 5.0)
+4. `Vehicle_condition` — Condition of the vehicle (0 = poor, 1 = fair, 2 = good)
+5. `multiple_deliveries` — Number of additional orders assigned to the rider (0 to 3)
+6. `Road_traffic_density` — Traffic level (`Low`, `Medium`, `High`, `Jam`)
+7. `Weather_conditions` — Weather (`Sunny`, `Cloudy`, `Fog`, `Stormy`, `Windy`, `Sandstorms`)
+8. `Festival` — Festival season (`Yes` or `No`)
+9. `Time_taken_min` — Actual delivery time in minutes (Regression Target)
+10. `late` — Late indicator (Classification Target)
 
-The code also calculates `distance_km` from restaurant/customer GPS coordinates when that engineered column is not already present.
+---
 
-## Project files
+## 📁 Project Structure
 
 ```text
-zomato_delivery_ai/
-├── zomato_cleaned.csv          # Put the dataset here
-├── train_models.py             # preprocessing + training + evaluation + .pkl export
-├── app.py                      # Streamlit app
-├── notebook_outline.md         # classroom notebook sequence
-├── requirements.txt
+zomato_delivery_ai_project/
+├── zomato_cleaned.csv          # Clean dataset (42,444 orders, 10 columns, 0 nulls)
+├── zomato_delivery_ai.ipynb    # Main demonstration Jupyter notebook for class
+├── notebook_outline.md         # Teacher's lecture guide & talking points
+├── train_models.py             # Standalone Python script to train & export models
+├── app.py                      # Interactive Streamlit web application
+├── requirements.txt            # Python dependencies
 └── models/
-    ├── eta_linear_regression.pkl
-    ├── late_logistic_regression.pkl
-    └── model_info.pkl
+    ├── eta_linear_regression.pkl   # Trained Linear Regression model
+    ├── late_logistic_regression.pkl # Trained Logistic Regression model
+    └── model_info.pkl              # Feature columns & metadata
 ```
 
-## Run
+---
+
+## 🚀 Quick Start Commands
 
 ```bash
+# 1. Install dependencies
 pip install -r requirements.txt
+
+# 2. Train models (or run the notebook)
 python train_models.py
+
+# 3. Launch the interactive web app
 streamlit run app.py
 ```
 
-## Important teaching choice
+---
 
-Do **not** feed the actual delivery time into the features. It is the target. This keeps the demo free from target leakage.
+## ⏰ 2–3 Hour Class Schedule
 
-The logistic model also does **not** use the linear model's prediction as an input. Both models independently learn from the same operational features, which makes the comparison cleaner for teaching.
-
-## 2–3 hour class flow
-
-**0:00–0:20** Business problem + dataset + simple EDA  
-**0:20–0:45** Cleaning + distance feature + late label  
-**0:45–1:20** Linear Regression + metrics  
-**1:20–1:55** Logistic Regression + confusion matrix  
-**1:55–2:15** Save/load `.pkl` files  
-**2:15–3:00** Streamlit app + demo + small student exercises
+* **0:00 – 0:20 | Introduction & Business Problem**
+  * Why food delivery apps need AI.
+  * Regression (How many minutes?) vs. Classification (Is it late? Yes/No).
+* **0:20 – 0:45 | Data Exploration & Preprocessing**
+  * Loading `zomato_cleaned.csv`.
+  * Visualizing delivery times with a 2-line histogram.
+  * Converting text categories to numbers using `pd.get_dummies()`.
+* **0:45 – 1:20 | Model 1: Linear Regression (ETA AI)**
+  * Fitting the model in 3 lines of code.
+  * Understanding Mean Absolute Error (MAE ~ 4.8 minutes).
+* **1:20 – 1:55 | Model 2: Logistic Regression (Late Delivery AI)**
+  * Predicting binary late risk.
+  * Understanding Accuracy (~88%) and the Confusion Matrix.
+* **1:55 – 2:15 | Testing on a Live Order & Saving Models**
+  * Simulating a live customer order with custom inputs.
+  * Saving models with `pickle.dump()`.
+* **2:15 – 3:00 | Live Streamlit Demo & Q&A**
+  * Running `streamlit run app.py`.
+  * Letting students test different traffic/weather combinations.
